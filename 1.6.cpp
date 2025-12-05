@@ -1,30 +1,41 @@
 #include <stdio.h>
+#include <stdlib.h>
 
-int *GetMat( int *row, int *col );
+int *GetMatrix(int *numRows, int *numCols) {
+    int *matrix;
+
+    scanf("%d %d", numRows, numCols);
+
+   matrix = (int *)malloc((*numRows) * (*numCols) * sizeof(int));
+    if (matrix == NULL) {
+        printf("Allocation FAILED.\n");
+        exit(0);
+    }
+
+     for (int rowIndex = 0; rowIndex < *numRows; rowIndex++) {
+        for (int colIndex = 0; colIndex < *numCols; colIndex++) {
+            scanf("%d", &matrix[rowIndex * (*numCols) + colIndex]);
+        }
+    }
+
+    return matrix;
+}
 
 int main() {
-    int *data;
-    int  m , n;
-    data = GetMat(&m , &n );
-    for ( int i = 0 ; i < m ; i ++ ) {
-        for ( int a = 0 ; a < n ; a ++ ) {
-            printf("%d " , data[ i * n + a]);
+    int *matrixData;
+    int numRows, numCols;
+
+    matrixData = GetMatrix(&numRows, &numCols);
+
+   for (int rowIndex = 0; rowIndex < numRows; rowIndex++) {
+        for (int colIndex = 0; colIndex < numCols; colIndex++) {
+            printf("%d ", matrixData[rowIndex * numCols + colIndex]);
         }
         printf("\n");
     }
-    delete[] data;
-    return 0;
-}
 
-int *GetMat( int *row, int *col ) {
-    int *arr;
-    int i = 0 , a = 0;
-    scanf( "%d %d" , row , col );
-    arr = new int[ *row * *col ];
-    for ( i = 0 ; i < *row ; i ++ ){
-        for (a = 0 ; a < *col ; a ++ ) {
-            scanf( "%d" , &arr[ i * *col + a] );
-        }
-    }
-    return arr;
+     free(matrixData);
+    matrixData = NULL;
+
+    return 0;
 }
